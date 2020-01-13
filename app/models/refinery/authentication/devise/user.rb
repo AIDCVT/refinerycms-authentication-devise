@@ -5,6 +5,13 @@ module Refinery
   module Authentication
     module Devise
       class User < Refinery::Core::BaseModel
+        
+        EXPORT_FIELDS = %i[username email created_at updated_at profile_picture_url rss_feed
+                   blog_url first_name last_name location bio short_bio job_title company facebook
+                   twitter linkedin google_plus pinterest tumblr phone passion level
+                   occupation location_city location_state location_country
+                   allow_sending_tweet interest prefix suffix other_prefix
+                   send_me_newsletter password_updated subscribe_option].freeze
 
         extend FriendlyId
 
