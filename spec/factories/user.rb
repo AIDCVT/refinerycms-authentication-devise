@@ -1,9 +1,9 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :authentication_devise_user, :class => Refinery::Authentication::Devise::User do
     sequence(:username) { |n| "refinery#{n}" }
     sequence(:email) { |n| "refinery#{n}@example.com" }
-    password  "refinerycms"
-    password_confirmation "refinerycms"
+    password  { 'refinerycms' }
+    password_confirmation { 'refinerycms' }
   end
 
   factory :authentication_devise_refinery_user, :parent => :authentication_devise_user do
