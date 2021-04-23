@@ -5,9 +5,9 @@ module Refinery
     module Devise
       describe User, :type => :model do
 
-        let(:user) { FactoryGirl.create(:authentication_devise_user) }
+        let(:user) { FactoryBot.create(:authentication_devise_user) }
         let(:refinery_user) {
-          FactoryGirl.create(:authentication_devise_refinery_user)
+          FactoryBot.create(:authentication_devise_refinery_user)
         }
 
         context "Roles" do
@@ -17,16 +17,16 @@ module Refinery
             end
 
             it "adds a Role to the User when role not yet assigned to User" do
-              expect(proc {
+              expect {
                 user.add_role(:new_role)
-              }).to change(user.roles, :count).by(1)
+              }.to change(user.roles, :count).by(1)
               expect(user.roles.collect(&:title)).to include("NewRole")
             end
 
             it "does not add a Role to the User when this Role is already assigned to User" do
-              expect(proc {
+              expect {
                 refinery_user.add_role(:refinery)
-              }).not_to change(refinery_user.roles, :count)
+              }.not_to change(refinery_user.roles, :count)
               expect(refinery_user.roles.collect(&:title)).to include("Refinery")
             end
           end
@@ -98,9 +98,9 @@ module Refinery
         end
 
         describe "#can_delete?" do
-          let(:user_not_persisted) { FactoryGirl.build(:authentication_devise_refinery_user) }
+          let(:user_not_persisted) { FactoryBot.build(:authentication_devise_refinery_user) }
           let(:super_user) do
-            FactoryGirl.create(:authentication_devise_refinery_user).tap do |user|
+            FactoryBot.create(:authentication_devise_refinery_user).tap do |user|
               user.add_role(:superuser)
             end
           end
@@ -137,13 +137,13 @@ module Refinery
         end
 
         describe "#can_edit?" do
-          let(:user_not_persisted) { FactoryGirl.build(:authentication_devise_refinery_user) }
+          let(:user_not_persisted) { FactoryBot.build(:authentication_devise_refinery_user) }
           let(:super_user) do
-            FactoryGirl.create(:authentication_devise_refinery_user).tap do |user|
+            FactoryBot.create(:authentication_devise_refinery_user).tap do |user|
               user.add_role(:superuser)
             end
           end
-          let(:user_persisted) { FactoryGirl.create(:authentication_devise_refinery_user)}
+          let(:user_persisted) { FactoryBot.create(:authentication_devise_refinery_user)}
 
           context "won't allow to edit" do
             it "non-persisted user record" do
@@ -169,7 +169,7 @@ module Refinery
         describe "#plugins=" do
           context "when user is not persisted" do
             it "does not add plugins for this user" do
-              new_user = FactoryGirl.build(:authentication_devise_user)
+              new_user = FactoryBot.build(:authentication_devise_user)
               new_user.plugins = ["test"]
               expect(new_user.plugins).to be_empty
             end
@@ -265,7 +265,7 @@ module Refinery
 
         describe "#create_first" do
           let(:first_user) do
-            FactoryGirl.build(:authentication_devise_user).tap do |user|
+            FactoryBot.build(:authentication_devise_user).tap do |user|
               user.create_first
             end
           end

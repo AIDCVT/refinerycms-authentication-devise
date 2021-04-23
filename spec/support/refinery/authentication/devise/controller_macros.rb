@@ -3,13 +3,13 @@ module Refinery
     module Devise
       module ControllerMacros
         def self.extended(base)
-          base.send :include, ::Devise::TestHelpers
+          base.send :include, ::Devise::Test::ControllerHelpers
         end
 
         def refinery_login_with_devise(*roles)
           roles = handle_deprecated_roles!(roles).flatten
           let(:logged_in_user) do
-            FactoryGirl.create(:authentication_devise_user).tap do |user|
+            FactoryBot.create(:authentication_devise_user).tap do |user|
               roles.each do |role|
                 user.add_role(role)
               end
@@ -22,7 +22,7 @@ module Refinery
         end
 
         def factory_user(factory)
-          let(:logged_in_user) { FactoryGirl.create(factory) }
+          let(:logged_in_user) { FactoryBot.create(factory) }
           before do
             @request.env["devise.mapping"] = ::Devise.mappings[:authentication_devise_user]
             sign_in logged_in_user
