@@ -5,7 +5,7 @@ module Refinery
   module Authentication
     module Devise
       class User < Refinery::Core::BaseModel
-        
+
         EXPORT_FIELDS = %i[username email created_at updated_at profile_picture_url rss_feed
                    blog_url first_name last_name location bio short_bio job_title company facebook
                    twitter linkedin google_plus pinterest tumblr phone passion level
@@ -56,10 +56,7 @@ module Refinery
         # https://github.com/plataformatec/devise/blob/v3.2.4/lib/devise/models/recoverable.rb#L45-L56
         def generate_reset_password_token!
           raw, enc = ::Devise.token_generator.generate(self.class, :reset_password_token)
-          update_attributes(
-            :reset_password_token => enc,
-            :reset_password_sent_at => Time.now.utc
-          )
+          update(reset_password_token: enc, reset_password_sent_at: Time.now.utc)
           raw
         end
 
